@@ -13,6 +13,7 @@ This repository contains my assignments for **CS231n **.
 - `Assignment 3`: Image Captioning, Generative Models, etc.
 
 ## 🛠️ Tech Stack
-- **Language**: Python
-- **Libraries**: NumPy, PyTorch (later stages), Matplotlib
-- **Environment**: Google Colab
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
+![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
+![Google Colab](https://img.shields.io/badge/Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252)

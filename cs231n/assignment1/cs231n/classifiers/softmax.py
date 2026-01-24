@@ -30,7 +30,7 @@ def softmax_loss_naive(W, X, y, reg):
     num_classes = W.shape[1]
     num_train = X.shape[0]
     for i in range(num_train):
-        scores = X[i].dot(W)
+        scores = X[i].dot(W) # X[i]: 1*3073 W: 3073*10
 
         # compute the probabilities in numerically stable way
         scores -= np.max(scores)
@@ -52,7 +52,17 @@ def softmax_loss_naive(W, X, y, reg):
     # loss is being computed. As a result you may need to modify some of the    #
     # code above to compute the gradient.                                       #
     #############################################################################
+    for i in range(num_train):
+        scores = X[i].dot(W) # X[i]: 1*3073 W: 3073*10 scores: 1*10
+        
+        # compute the probabilities in numerically stable way
+        scores -= np.max(scores)
+        p = np.exp(scores)
+        p /= p.sum()
+        p[y[i]]-=1
+        dW += np.outer(X[i],p)
 
+    dW = dW/num_train + 2 * reg * W
 
     return loss, dW
 
@@ -66,13 +76,21 @@ def softmax_loss_vectorized(W, X, y, reg):
     # Initialize the loss and gradient to zero.
     loss = 0.0
     dW = np.zeros_like(W)
-
+    N = X.shape[0]
 
     #############################################################################
     # TODO:                                                                     #
     # Implement a vectorized version of the softmax loss, storing the           #
     # result in loss.                                                           #
     #############################################################################
+    scores = X.dot(W) # X: N * 3070 W: 3070 * 10 scores: N*10
+    scores -= np.max(scores,axis=1,keepdims=True)
+    p = np.exp(scores)
+    p = p / p.sum(axis=1,keepdims=True)
+    logp = np.log(p)
+    loss = -np.sum(logp[np.arange(N),y])
+    
+    loss = loss/N + reg * np.sum(W*W)
 
 
     #############################################################################
@@ -84,6 +102,10 @@ def softmax_loss_vectorized(W, X, y, reg):
     # to reuse some of the intermediate values that you used to compute the     #
     # loss.                                                                     #
     #############################################################################
+
+    p[np.arange(N),y]-=1
+    dW = X.T.dot(p)
+    dW = dW/N + 2 * reg * W
 
 
     return loss, dW
